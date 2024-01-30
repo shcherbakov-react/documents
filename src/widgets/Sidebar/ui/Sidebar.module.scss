@@ -1,0 +1,18 @@
+.sidebar {
+    background-color: var(--background-700);
+    padding: 24px;
+}
+
+.sidebarWrap {
+    margin-top: 30px;
+}
+
+.link {
+    display: flex;
+    gap: 8px;
+    color: #afafaf;
+    align-items: center;
+    & + .link {
+        margin-top: 8px;
+    }
+}

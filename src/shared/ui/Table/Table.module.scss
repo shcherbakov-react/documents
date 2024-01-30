@@ -1,0 +1,26 @@
+.table {
+    width: 100%;
+    th {
+        background-color: #eff2f7;
+        border: 1px solid #d7dade;
+        text-transform: uppercase;
+        padding: 12px;
+        color: #495057;
+    }
+    tbody {
+        border-left: 1px solid #eff2f7;
+    }
+
+    td {
+        border-right: 1px solid #eff2f7;
+        padding: 12px;
+        background: transparent;
+        border-bottom: 1px solid #eff2f7;
+    }
+}
+
+.hover {
+    tr:hover {
+        background: var(--bg-hover);
+    }
+}

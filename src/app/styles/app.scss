@@ -1,0 +1,11 @@
+.app {
+    display: grid;
+    grid-template-columns: var(--sidebar-width) 1fr;
+}
+
+.content {
+    display: grid;
+    grid-template-rows: var(--header-height) 1fr;
+    margin: 0 auto;
+    width: 100%;
+}
