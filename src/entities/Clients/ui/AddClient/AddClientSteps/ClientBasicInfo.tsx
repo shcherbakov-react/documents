@@ -1,22 +1,37 @@
 import Title from "antd/es/typography/Title";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import Input from "antd/es/input";
-import { Col, Row, Select } from "antd";
+import { Button, Col, Row, Select } from "antd";
+
+interface IPhoneNumbers {
+    number: string,
+    name?: string
+}
 
 interface IFormInput {
     "firstname": "string",
     "secondname": "string",
-    "lastname": "string",
-    "email": "string",
-    "type": 0,
-    "comment": "string",
+    "lastname"?: "string",
+    "email"?: "string",
+    "type"?: 0,
+    "comment"?: "string",
+    "phones": IPhoneNumbers[]
 }
 
 export const ClientBasicInfo = () => {
-    const {control, handleSubmit, formState: {errors}} = useForm({})
+    const {control, handleSubmit, register, watch, formState: {errors}} = useForm({
+
+    })
     const onSubmit: SubmitHandler<IFormInput> = (data) => {
 
     }
+
+    const {fields, append, remove} = useFieldArray({
+        control,
+        name: 'phones'
+    });
+
+
     const options = [
         {
             value: 1,
@@ -41,7 +56,7 @@ export const ClientBasicInfo = () => {
                             name="lastname"
                             control={control}
                             rules={{required: true}}
-                            render={({field}) => <Input {...field} />}
+                            render={({field}) => <Input placeholder="Иванов" {...field} />}
                         />
                     </div>
                 </Col>
@@ -52,7 +67,7 @@ export const ClientBasicInfo = () => {
                             name="firstname"
                             control={control}
                             rules={{required: true}}
-                            render={({field}) => <Input {...field} />}
+                            render={({field}) => <Input placeholder="Иван" {...field} />}
                         />
                     </div>
                 </Col>
@@ -62,7 +77,7 @@ export const ClientBasicInfo = () => {
                         <Controller
                             name="secondname"
                             control={control}
-                            render={({field}) => <Input {...field} />}
+                            render={({field}) => <Input placeholder="Иванович" {...field} />}
                         />
                     </div>
                 </Col>
@@ -72,7 +87,7 @@ export const ClientBasicInfo = () => {
                         <Controller
                             name="email"
                             control={control}
-                            render={({field}) => <Input {...field} />}
+                            render={({field}) => <Input placeholder="email@mail.ru" {...field} />}
                         />
                     </div>
                 </Col>
@@ -90,16 +105,49 @@ export const ClientBasicInfo = () => {
                     <div>
                         <Title level={5}>Тип</Title>
                         <Controller
-                            name="email"
+                            name="type"
                             control={control}
                             rules={{required: true}}
-                            render={({field}) => <Select style={{
+                            render={({field}) => <Select placeholder={"Выбирите тип"} style={{
                                 width: 120,
                             }} options={options} {...field} />}
                         />
                     </div>
                 </Col>
+                <Col span={8}>
+                    <div>
+                        <Title level={5}>Телефон</Title>
+                        {fields.map((item, index) => {
+                            return (
+                                <>
+                                    <Controller
+                                        name={`phones.${index}.number`}
+                                        control={control}
+                                        render={({field}) => <Input type={"textarea"} {...field} />}
+                                    />
+                                    <div className="col-md-1 d-flex align-items-end">
+                                        <button
+                                            onClick={() => remove(index)}
+                                            className="btn border-0 bg-danger bx bx-trash fs-4 text-white p-2"></button>
+                                    </div>
 
+                                </>
+                            );
+                        })}
+                        {errors?.phones && (
+                            <div className="invalid-tooltip" id="validate1">
+                                {errors.phones.message}
+                            </div>
+                        )}
+                        <Button
+                            onClick={() => {
+                                append({})
+                            }}
+                            type={"primary"}>
+                            Добавить
+                        </Button>
+                    </div>
+                </Col>
             </Row>
         </form>
     )
