@@ -30,7 +30,7 @@ export const ClientsColumns: TableProps<ClientSchema>['columns'] = [
         render: (_, record: ClientSchema) => (
             <Space size="middle">
                 {record?.phones?.map((obj) => (
-                    <div>{obj?.number}</div>
+                    <div key={obj.number}>{obj?.number}</div>
                 ))}
             </Space>
         ),

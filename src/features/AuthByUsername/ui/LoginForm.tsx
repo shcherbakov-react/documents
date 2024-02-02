@@ -7,6 +7,8 @@ import cls from './LoginForm.module.scss'
 import axios from "axios";
 import { $apiAxios } from "shared/api/apiAxios";
 import { useState } from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { ValidationLoginFormSchema } from "features/AuthByUsername/ui/ValidationLoginForm";
 
 export const LoginForm = () => {
     interface IFormInput {
@@ -14,7 +16,9 @@ export const LoginForm = () => {
         password: string
     }
 
-    const {control, handleSubmit, formState: {errors}} = useForm({})
+    const {control, handleSubmit, formState: {errors}} = useForm({
+        resolver: yupResolver(ValidationLoginFormSchema)
+    })
     const [isErrorAuth, setIsErrorAuth] = useState(false);
     const closeAlert = () => {
         setIsErrorAuth(false)
@@ -46,7 +50,6 @@ export const LoginForm = () => {
                                 <Controller
                                     name="username"
                                     control={control}
-                                    rules={{ required: true }}
                                     render={({field}) => <Input {...field} />}
                                 />
                                 <div className="loginError" style={{ height: 12 }}>
@@ -60,12 +63,11 @@ export const LoginForm = () => {
                                 <Controller
                                     name="password"
                                     control={control}
-                                    rules={{ required: true }}
                                     render={({field}) => <Input  {...field} />}
                                 />
                                 <div className="loginError" style={{height: 20}}>
-                                    {errors?.username && (
-                                        <p> {errors?.username?.message || 'Поле некорректно'}</p>
+                                    {errors?.password && (
+                                        <p> {errors?.password?.message || 'Поле некорректно'}</p>
                                     )}
                                 </div>
                             </div>
