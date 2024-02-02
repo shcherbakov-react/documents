@@ -21,10 +21,10 @@ const AppRouter = () => {
         return (
             <>
                 <Route element={<SidebarLayout />}>
-                    <Route path={route.path} element={element} />
+                    <Route key={route.path} path={route.path} element={element} />
                 </Route>
                 <Route>
-                    <Route path="/auth" element={<AuthPage />} />
+                    <Route key={"auth"} path="/auth" element={<AuthPage />} />
                 </Route>
             </>
         )
