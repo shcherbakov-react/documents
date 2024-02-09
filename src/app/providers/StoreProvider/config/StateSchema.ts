@@ -1,5 +1,5 @@
-import { ClientSchema } from 'entities/Clients/model/types/ClientSchema';
+import { Client } from 'entities/Clients/model/types/Client';
 
 export interface StateSchema {
-    clients: ClientSchema;
+    clients: Client;
 }

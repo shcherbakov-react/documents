@@ -1,20 +1,14 @@
 import { useForm } from "react-hook-form";
-import { Button, Modal, Space, Steps } from "antd";
+import { Modal, Steps } from "antd";
 import { useState } from "react";
-import { ClientBasicInfo } from "entities/Clients/ui/AddClient/AddClientSteps/ClientBasicInfo";
-import cls from "features/AuthByUsername/ui/LoginForm.module.scss";
-import { ProjectsOfClient } from "entities/Clients/ui/AddClient/AddClientSteps/ProjectsOfClient";
+import { ClientBasicInfo } from "entities/Clients/ui/AddClient/AddClientSteps/BasicInfo/ClientBasicInfo";
+import { ProjectsInfo } from "entities/Clients/ui/AddClient/AddClientSteps/ProjectsInfo/ProjectsInfo";
 
 export const AddClient = ({isOpen}: any) => {
-    const {control, handleSubmit} = useForm({})
-    const [modalVisible, setModalVisible] = useState(false);
     const [current, setCurrent] = useState(0);
     const next = () => {
         setCurrent(current + 1);
     };
-    const prev = () => {
-        setCurrent(current - 1);
-    }
     const steps = [
         {
             title: 'Общая информация',
@@ -22,7 +16,7 @@ export const AddClient = ({isOpen}: any) => {
         },
         {
             title: 'Проекты',
-            content: <ProjectsOfClient />,
+            content: <ProjectsInfo current={current} setCurrent={setCurrent} />,
         },
         {
             title: 'Юр. Лица',

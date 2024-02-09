@@ -21,7 +21,7 @@ export const LoginForm = () => {
     })
     const [isErrorAuth, setIsErrorAuth] = useState(false);
     const closeAlert = () => {
-        setIsErrorAuth(false)
+        setIsErrorAuth(false);
     }
     const onSubmit: SubmitHandler<IFormInput> = (data) => {
         $apiAxios.get('/auth', {
@@ -44,7 +44,8 @@ export const LoginForm = () => {
                 <Col span={6}>
                     <Card>
                         <Space style={{width: '100%'}} direction="vertical" size={"small"}>
-                            {isErrorAuth && <Alert onClose={closeAlert} type={"error"} closable message={"Ошибка авторизации"}/>}
+                            {isErrorAuth &&
+								<Alert onClose={closeAlert} type={"error"} closable message={"Ошибка авторизации"} />}
                             <div>
                                 <Title level={5}>Логин</Title>
                                 <Controller
@@ -52,7 +53,7 @@ export const LoginForm = () => {
                                     control={control}
                                     render={({field}) => <Input {...field} />}
                                 />
-                                <div className="loginError" style={{ height: 12 }}>
+                                <div className="loginError" style={{height: 12}}>
                                     {errors?.username && (
                                         <p> {errors?.username?.message || 'Поле некорректно'}</p>
                                     )}

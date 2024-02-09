@@ -1,50 +1,42 @@
 import Title from "antd/es/typography/Title";
-import { Controller, ResolverOptions, SubmitHandler, useFieldArray, useForm } from "react-hook-form";
+import { Controller, Resolver, ResolverOptions, SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import Input from "antd/es/input";
 import { Button, Col, Flex, Row, Select, Space } from "antd";
 import { clientBasicInfoSchema } from "entities/Clients/model/service/ClientValidation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
-
-type IPhoneNumbers = {
-    number: string;
-}
-
-export type IFormInput = {
-    firstname?: string;
-    secondname?: string;
-    lastname?: string;
-    email?: string;
-    type?: number;
-    comment?: string;
-    phones?: IPhoneNumbers[];
-}
-
-interface ClientBasicInfoProps {
-    current: number;
-    setCurrent: Function;
-}
+import { api } from "shared/api/api";
+import { useAddClientMutation } from "entities/Clients/model/service/Clients";
+import { IFormInput, ClientBasicInfoProps } from "../../../../model/types/Client";
 
 export const ClientBasicInfo = ({current, setCurrent}: ClientBasicInfoProps) => {
+    const [addClient, {isLoading}] = useAddClientMutation()
+
     const {control, handleSubmit, formState: {errors}} = useForm<IFormInput>({
-            // resolver: yupResolver(clientBasicInfoSchema),
+            resolver: yupResolver(clientBasicInfoSchema) as Resolver<IFormInput>,
             defaultValues:
-                {
-                    phones: [
-                        {
-                            number: '',
-                        }
-                    ]
-                }
+                {phones: [{name: '', number: ''}]}
         })
     ;
 
     const onSubmit: SubmitHandler<IFormInput> = (data) => {
-        console.log(data);
-        setTimeout(() => {
-            setCurrent(current + 1)
-        }, 2000)
-        // Здесь вы можете отправить данные на сервер или выполнить другие действия
+        addClient(
+            {
+                firstname: data.firstname,
+                secondname: data.secondname,
+                lastname: data.lastname,
+                email: data.email,
+                type: data.type,
+                comment: data.comment,
+                phones: data.phones
+            }
+        )
+            .then((res) => {
+                console.log(res)
+                // @ts-ignore
+                localStorage.setItem('currentCreateClient', res?.data.id)
+                setCurrent(current + 1)
+            })
     };
 
 
@@ -70,7 +62,7 @@ export const ClientBasicInfo = ({current, setCurrent}: ClientBasicInfoProps) => 
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <Row gutter={16}>
+            <Row gutter={[16, 12]}>
                 <Col span={8}>
                     <div>
                         <Title level={5}>Фамилия</Title>
@@ -81,7 +73,7 @@ export const ClientBasicInfo = ({current, setCurrent}: ClientBasicInfoProps) => 
                         />
                         {errors?.lastname && (
                             <div className="invalid-tooltip" id="validate1">
-                                {errors.phones.message}
+                                {errors.lastname.message}
                             </div>
                         )}
                     </div>
@@ -94,6 +86,11 @@ export const ClientBasicInfo = ({current, setCurrent}: ClientBasicInfoProps) => 
                             control={control}
                             render={({field}) => <Input placeholder="Иван" {...field} />}
                         />
+                        {errors?.firstname && (
+                            <div className="invalid-tooltip" id="validate1">
+                                {errors.firstname.message}
+                            </div>
+                        )}
                     </div>
                 </Col>
                 <Col span={8}>
@@ -104,6 +101,11 @@ export const ClientBasicInfo = ({current, setCurrent}: ClientBasicInfoProps) => 
                             control={control}
                             render={({field}) => <Input placeholder="Иванович" {...field} />}
                         />
+                        {errors?.secondname && (
+                            <div className="invalid-tooltip" id="validate1">
+                                {errors.secondname.message}
+                            </div>
+                        )}
                     </div>
                 </Col>
                 <Col span={8}>
@@ -114,6 +116,11 @@ export const ClientBasicInfo = ({current, setCurrent}: ClientBasicInfoProps) => 
                             control={control}
                             render={({field}) => <Input placeholder="email@mail.ru" {...field} />}
                         />
+                        {errors?.email && (
+                            <div className="invalid-tooltip" id="validate1">
+                                {errors.email.message}
+                            </div>
+                        )}
                     </div>
                 </Col>
                 <Col span={8}>
@@ -124,6 +131,11 @@ export const ClientBasicInfo = ({current, setCurrent}: ClientBasicInfoProps) => 
                             control={control}
                             render={({field}) => <Input type={"textarea"} {...field} />}
                         />
+                        {errors?.comment && (
+                            <div className="invalid-tooltip" id="validate1">
+                                {errors.comment.message}
+                            </div>
+                        )}
                     </div>
                 </Col>
                 <Col span={8}>
@@ -136,24 +148,42 @@ export const ClientBasicInfo = ({current, setCurrent}: ClientBasicInfoProps) => 
                                 width: 120,
                             }} options={options} {...field} />}
                         />
-
+                        {errors?.type && (
+                            <div className="invalid-tooltip" id="validate1">
+                                {errors.type.message}
+                            </div>
+                        )}
                     </div>
                 </Col>
-                <Col span={8}>
-                    <div>
+                <Col span={12}>
+                    <Flex gap={8} vertical={true}>
                         <Title level={5}>Телефон</Title>
                         {fields.map((item, index) => (
                             <Flex gap={8} key={item.id}>
                                 <Controller
                                     name={`phones.${index}.number`}
                                     control={control}
-                                    defaultValue={item.number || ''}
                                     render={({field}) => (
                                         <Input
                                             {...field}
                                             placeholder="Телефон"
-                                            value={field.value as string}
-                                            style={{width: '80%'}}
+                                        />
+                                    )}
+                                />
+                                {errors?.type && (
+                                    <div className="invalid-tooltip" id="validate1">
+                                        {errors.type.message}
+                                    </div>
+                                )}
+                                <Controller
+                                    name={`phones.${index}.name`}
+                                    control={control}
+                                    // defaultValue={item.number || ''}
+                                    render={({field}) => (
+                                        <Input
+                                            {...field}
+                                            placeholder="Имя"
+                                            // value={field.value as string}
                                         />
                                     )}
                                 />
@@ -171,16 +201,19 @@ export const ClientBasicInfo = ({current, setCurrent}: ClientBasicInfoProps) => 
                             onClick={() => {
                                 append({
                                     number: '',
+                                    name: ''
                                 });
                             }}
+                            style={{marginTop: 16}}
                             type={"primary"}
                         >
                             Добавить
                         </Button>
-                    </div>
-                    <Button htmlType={"submit"} type={"primary"}>Далее</Button>
+                    </Flex>
+
                 </Col>
             </Row>
+            <Button style={{marginTop: 32}} htmlType={"submit"} type={"primary"}>Далее</Button>
         </form>
     )
 }

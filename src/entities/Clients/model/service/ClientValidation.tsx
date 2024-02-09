@@ -7,9 +7,10 @@ export const clientBasicInfoSchema = yup.object().shape({
     email: yup.string().email('Неверный формат email'),
     type: yup.number(),
     comment: yup.string(),
-    phones: yup.array().of(
+    phones: yup.array().required().of(
         yup.object().shape({
             number: yup.string().required('Телефон обязателен'),
+            name: yup.string(),
         })
     ),
 });

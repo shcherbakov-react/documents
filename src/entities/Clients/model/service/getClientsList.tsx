@@ -1,7 +1,7 @@
 import { Space, Tag } from 'antd';
 import type { TableProps } from 'antd';
 import { useGetClientsQuery } from "shared/api/api";
-import { ClientSchema } from "entities/Clients/model/types/ClientSchema";
+import { Client } from "entities/Clients/model/types/Client";
 import { ReactChild, ReactFragment, ReactPortal } from 'react';
 import { NavLink } from "react-router-dom";
 
@@ -12,7 +12,7 @@ interface Iphones {
     number: string
 }
 
-export const ClientsColumns: TableProps<ClientSchema>['columns'] = [
+export const ClientsColumns: TableProps<Client>['columns'] = [
     {
         title: 'Фио',
         dataIndex: 'firstname',
@@ -27,7 +27,7 @@ export const ClientsColumns: TableProps<ClientSchema>['columns'] = [
         title: 'Номер телефона',
         dataIndex: 'phones',
         key: 'phones',
-        render: (_, record: ClientSchema) => (
+        render: (_, record: Client) => (
             <Space size="middle">
                 {record?.phones?.map((obj) => (
                     <div key={obj.number}>{obj?.number}</div>
