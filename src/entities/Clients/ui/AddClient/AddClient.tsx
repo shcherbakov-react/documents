@@ -4,15 +4,17 @@ import { useState } from "react";
 import { ClientBasicInfo } from "entities/Clients/ui/AddClient/AddClientSteps/BasicInfo/ClientBasicInfo";
 import { ProjectsInfo } from "entities/Clients/ui/AddClient/AddClientSteps/ProjectsInfo/ProjectsInfo";
 
-export const AddClient = ({isOpen}: any) => {
+interface AddClientProps  {
+    isOpen: boolean
+    setIsOpen: Function
+}
+
+export const AddClient = ({isOpen, setIsOpen}: AddClientProps) => {
     const [current, setCurrent] = useState(0);
-    const next = () => {
-        setCurrent(current + 1);
-    };
     const steps = [
         {
             title: 'Общая информация',
-            content: <ClientBasicInfo current={current} setCurrent={setCurrent}/>,
+            content: <ClientBasicInfo current={current} setCurrent={setCurrent} />,
         },
         {
             title: 'Проекты',
@@ -23,10 +25,18 @@ export const AddClient = ({isOpen}: any) => {
             content: 'Last-content',
         },
     ];
+    const handleCancel = () => {
+        setIsOpen(false);
+    };
 
     const items = steps.map((item) => ({key: item.title, title: item.title}));
     return (
-        <Modal footer={null} title={"Новый клиент"} width={1000} open={isOpen}>
+        <Modal footer={null}
+               title={"Новый клиент"}
+               width={1000}
+               open={isOpen}
+               closable={true}
+               onCancel={handleCancel}>
             <Steps current={current} items={items} />
             <div style={{padding: '24px 0'}}>{steps[current].content}</div>
         </Modal>

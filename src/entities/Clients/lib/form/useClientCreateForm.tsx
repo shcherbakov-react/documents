@@ -31,8 +31,10 @@
         });
 
         const onSubmit: SubmitHandler<{legals: ProjectLegals[]}> = async (data) => {
+            console.log(data)
             try {
                 const { legals } = data;
+                console.log(currentUserId)
                 const clientDataToUpdate = legals[0]; // assuming you are updating the first legal entity
                 const response = await updateClientMutation({ id: currentUserId, ...clientDataToUpdate });
                 const openNotification = () => {

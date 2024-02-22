@@ -15,8 +15,8 @@ const Auth = api.injectEndpoints({
         }),
         updateClient: build.mutation({
             query: ({id, ...patch}) => ({
-                url: `posts/${id}`,
-                method: 'PUT',
+                url: `clients/${id}`,
+                method: 'PATCH',
                 body: patch,
             }),
         }),

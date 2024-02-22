@@ -8,23 +8,14 @@ import cls from './ClientPage.module.scss'
 import Card from "antd/es/card";
 import { LegalPersons } from "entities/LegalEntity/ui/LegalPersons";
 import { LegalCharts } from "entities/LegalEntity/ui/Сharts";
+import { IClientData } from "pages/ClientPage/model/types/ClientPageSchema";
 
 export const ClientPage = () => {
     const {id} = useParams()
-    console.log(id)
     const {data, isLoading} = useGetClientQuery(id)
 
-    interface IFormInput {
-        firstname: string
-        type: number
-        lastname: string
-    }
-
     const {
-        handleSubmit,
-        control,
         reset,
-        register
     } = useForm({
         defaultValues: {
             firstname: data?.firstname,
@@ -33,12 +24,11 @@ export const ClientPage = () => {
         }
     })
 
-
     useEffect(() => {
         reset(data)
     }, [isLoading])
 
-    const onSubmit: SubmitHandler<IFormInput> = (data) => {
+    const onSubmit: SubmitHandler<IClientData> = (data) => {
         console.log(data)
     }
 
@@ -46,19 +36,14 @@ export const ClientPage = () => {
         {
             label: 'Юр. Лица',
             key: '1',
-            children: <LegalPersons />,
+            children: <LegalPersons id={id} />,
         },
         {
             label: 'Графики',
             key: '2',
             children: <LegalCharts />,
         },
-        {
-            label: 'Tab 3',
-            key: '3',
-            children: 'Tab 3',
-        }
-    ]
+    ];
 
     return (
         <div className={cls.form}>
@@ -66,7 +51,7 @@ export const ClientPage = () => {
                 <Col span={7}>
                     <ClientProfile data={data} />
                 </Col>
-                <Col span={15}>
+                <Col span={16}>
                     <Card>
                         <Tabs items={items} />
                     </Card>

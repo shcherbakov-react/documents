@@ -4,8 +4,10 @@ import Card from "antd/es/card";
 import Title from "antd/es/typography/Title";
 import cls from './Client.module.scss'
 import { Col, Flex, Row, Space } from "antd";
+import { IClientData } from "pages/ClientPage/model/types/ClientPageSchema";
 
 export const ClientProfile = ({data}: any) => {
+    console.log(data)
     const options = [
         {
             value: 0,

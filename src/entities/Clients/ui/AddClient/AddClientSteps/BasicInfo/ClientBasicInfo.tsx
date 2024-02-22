@@ -7,19 +7,19 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { api } from "shared/api/api";
 import { useAddClientMutation } from "entities/Clients/model/service/Clients";
-import { IFormInput, ClientBasicInfoProps } from "../../../../model/types/Client";
+import { ClientBasicInfoProps, IClientData } from "../../../../model/types/Client";
 
 export const ClientBasicInfo = ({current, setCurrent}: ClientBasicInfoProps) => {
     const [addClient, {isLoading}] = useAddClientMutation()
 
-    const {control, handleSubmit, formState: {errors}} = useForm<IFormInput>({
-            resolver: yupResolver(clientBasicInfoSchema) as Resolver<IFormInput>,
+    const {control, handleSubmit, formState: {errors}} = useForm<IClientData>({
+            resolver: yupResolver(clientBasicInfoSchema) as Resolver<IClientData>,
             defaultValues:
                 {phones: [{name: '', number: ''}]}
         })
     ;
 
-    const onSubmit: SubmitHandler<IFormInput> = (data) => {
+    const onSubmit: SubmitHandler<IClientData> = (data) => {
         addClient(
             {
                 firstname: data.firstname,

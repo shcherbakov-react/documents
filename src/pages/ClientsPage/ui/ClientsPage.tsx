@@ -3,11 +3,13 @@ import { useGetClientsQuery } from "shared/api/api";
 import { ClientsColumns } from "entities/Clients/model/service/getClientsList";
 import { Link } from "react-router-dom";
 import { AddClient } from "entities/Clients/ui/AddClient/AddClient";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export const ClientsPage = () => {
     const {data, error, isLoading} = useGetClientsQuery('');
     const [modalState, setModalState] = useState(false);
+
 
     return (
         <>
@@ -15,7 +17,7 @@ export const ClientsPage = () => {
                     Добавить пользователя
             </Button>
             <Table columns={ClientsColumns} dataSource={data?._embedded?.clients} />
-            <AddClient isOpen={modalState} />
+            <AddClient isOpen={modalState} setIsOpen={setModalState}/>
         </>
     )
 }

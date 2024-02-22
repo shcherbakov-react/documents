@@ -24,7 +24,7 @@ export interface IClientPhones {
     name?: string
 }
 
-export interface IFormInput {
+export interface IClientData {
     firstname: string;
     secondname?: string;
     lastname: string;
