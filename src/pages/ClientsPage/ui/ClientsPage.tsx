@@ -1,21 +1,20 @@
-import { Button, Space, Table, TableProps, Tag } from "antd";
-import { useGetClientsQuery } from "shared/api/api";
-import { ClientsColumns } from "entities/Clients/model/service/getClientsList";
-import { Link } from "react-router-dom";
-import { AddClient } from "entities/Clients/ui/AddClient/AddClient";
-import { useState } from "react";
+import {Button, Space, Table, TableProps, Tag} from "antd";
+import {useGetClientsQuery} from "shared/api/api";
+import {ClientsColumns} from "entities/Clients/model/service/getClientsList";
+import {Link} from "react-router-dom";
 
 export const ClientsPage = () => {
     const {data, error, isLoading} = useGetClientsQuery('');
-    const [modalState, setModalState] = useState(false);
-
     return (
-        <>
-            <Button onClick={() => setModalState(true)} style={{marginBottom: "16px"}} type="primary">
+        <Space direction={"vertical"} size={16}  style={{
+            display: 'flex',
+        }}>
+            <Link to={'/clients/add'} style={{marginBottom: "16px"}}>
+                <Button type="primary">
                     Добавить пользователя
-            </Button>
-            <Table columns={ClientsColumns} dataSource={data?._embedded?.clients} />
-            <AddClient isOpen={modalState} />
-        </>
+                </Button>
+            </Link>
+            <Table columns={ClientsColumns} dataSource={data?._embedded?.clients}/>
+        </Space>
     )
 }

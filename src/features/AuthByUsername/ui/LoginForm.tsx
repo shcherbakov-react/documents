@@ -4,17 +4,19 @@ import { Alert, Button, Col, Row, Space } from "antd";
 import Title from "antd/es/typography/Title";
 import Card from "antd/es/card";
 import cls from './LoginForm.module.scss'
-import axios from "axios";
+import { USER_LOCALSTORAGE_KEY } from 'shared/const/localstorage'
 import { $apiAxios } from "shared/api/apiAxios";
 import { useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { ValidationLoginFormSchema } from "features/AuthByUsername/ui/ValidationLoginForm";
+import { ValidationLoginFormSchema } from "features/AuthByUsername/model/ValidationLoginForm";
+import {useNavigate} from "react-router-dom";
 
 export const LoginForm = () => {
     interface IFormInput {
         username: string
         password: string
     }
+    const navigate = useNavigate();
 
     const {control, handleSubmit, formState: {errors}} = useForm({
         resolver: yupResolver(ValidationLoginFormSchema)
@@ -24,14 +26,15 @@ export const LoginForm = () => {
         setIsErrorAuth(false)
     }
     const onSubmit: SubmitHandler<IFormInput> = (data) => {
-        $apiAxios.get('/auth', {
+        $apiAxios.get('/', {
             auth: {
                 username: data.username,
                 password: data.password
             }
         })
             .then((res) => {
-                console.log(res)
+                localStorage.setItem(USER_LOCALSTORAGE_KEY, res.config.headers.Authorization as string);
+                navigate('/profile');
             })
             .catch((err) => {
                 setIsErrorAuth(true)
@@ -63,7 +66,7 @@ export const LoginForm = () => {
                                 <Controller
                                     name="password"
                                     control={control}
-                                    render={({field}) => <Input  {...field} />}
+                                    render={({field}) => <Input type="password" {...field} />}
                                 />
                                 <div className="loginError" style={{height: 20}}>
                                     {errors?.password && (

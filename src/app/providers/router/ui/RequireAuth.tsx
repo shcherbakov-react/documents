@@ -14,7 +14,7 @@ export function RequireAuth({ children }: any) {
     //         return hasRole;
     //     });
     // }, [roles, userRoles]);
-    let auth = localStorage.getItem('username');
+    let auth = localStorage.getItem('user');
     if (!auth) {
         return <Navigate to="/auth" />;
     }

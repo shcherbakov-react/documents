@@ -1,16 +1,8 @@
-import { Space, Tag } from 'antd';
+import { Space } from 'antd';
 import type { TableProps } from 'antd';
-import { useGetClientsQuery } from "shared/api/api";
-import { ClientSchema } from "entities/Clients/model/types/ClientSchema";
-import { ReactChild, ReactFragment, ReactPortal } from 'react';
+import { ClientSchema } from "entities/Clients";
 import { NavLink } from "react-router-dom";
 
-
-interface Iphones {
-    id: number
-    name: string
-    number: string
-}
 
 export const ClientsColumns: TableProps<ClientSchema>['columns'] = [
     {
