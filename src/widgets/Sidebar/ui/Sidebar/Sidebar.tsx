@@ -5,7 +5,7 @@ import { SidebarContent } from "widgets/Sidebar/ui/SidebarContent/SidebarContent
 
 export const Sidebar = () => {
     return (
-        <aside className={cls.sidebar}>
+        <aside data-testid="sidebar" className={cls.sidebar}>
             <div className={'navbar-brand-box'}>
                 <Link to="/clients" className="logo logo-light">
                         <span >
