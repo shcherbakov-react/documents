@@ -1,6 +1,9 @@
 .sidebar {
     background-color: var(--background-700);
     padding: 24px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
 }
 
 .sidebarWrap {
@@ -13,6 +16,6 @@
     color: #afafaf;
     align-items: center;
     & + .link {
-        margin-top: 8px;
+        margin-top: 20px;
     }
 }

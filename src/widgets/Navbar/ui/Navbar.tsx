@@ -1,21 +1,14 @@
 import cls from './Navbar.module.scss';
-import { ReactNode, useEffect, useState } from "react";
 import { Dropdown, Space } from "antd";
-import { DownOutlined } from "@ant-design/icons";
 import Avatar from "antd/es/avatar";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-// interface ILinks {
-//     label?: ReactNode | string
-//     key: string
-//     type?: string
-// }
 
 export const Navbar = () => {
+    const navigate = useNavigate()
     const handleLogOut = () => {
-        localStorage.removeItem('username');
-        localStorage.removeItem('password');
-        return <Navigate to="/login" />;
+        localStorage.removeItem('user');
+        navigate('/auth');
     }
 
     const items = [
@@ -51,7 +44,10 @@ export const Navbar = () => {
                     <a onClick={(e) => e.preventDefault()}>
                         <Space>
                             <Avatar />
-                            <DownOutlined />
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#000000" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                            </svg>
+
                         </Space>
                     </a>
                 </Dropdown>

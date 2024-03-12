@@ -1,7 +1,7 @@
 import cls from './Sidebar.module.scss'
 import Logo from 'shared/assets/images/icon/logo.svg';
 import { Link } from "react-router-dom";
-import { SidebarContent } from "widgets/Sidebar/ui/SidebarContent";
+import { SidebarContent } from "widgets/Sidebar/ui/SidebarContent/SidebarContent";
 
 export const Sidebar = () => {
     return (

@@ -1,24 +1,10 @@
 import Title from "antd/es/typography/Title";
-import { Controller, ResolverOptions, SubmitHandler, useFieldArray, useForm } from "react-hook-form";
+import {Controller, SubmitHandler, useFieldArray, useForm} from "react-hook-form";
 import Input from "antd/es/input";
-import { Button, Col, Flex, Row, Select, Space } from "antd";
-import { clientBasicInfoSchema } from "entities/Clients/model/service/ClientValidation";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect } from "react";
-
-type IPhoneNumbers = {
-    number: string;
-}
-
-export type IFormInput = {
-    firstname?: string;
-    secondname?: string;
-    lastname?: string;
-    email?: string;
-    type?: number;
-    comment?: string;
-    phones?: IPhoneNumbers[];
-}
+import {Button, Col, Flex, Row, Select, Space} from "antd";
+import {useState} from "react";
+import {DeleteOutlined, PlusOutlined} from "@ant-design/icons";
+import {ClientSchema} from "../../../model/types/ClientSchema";
 
 interface ClientBasicInfoProps {
     current: number;
@@ -26,7 +12,8 @@ interface ClientBasicInfoProps {
 }
 
 export const ClientBasicInfo = ({current, setCurrent}: ClientBasicInfoProps) => {
-    const {control, handleSubmit, formState: {errors}} = useForm<IFormInput>({
+    const [isLoading, setIsLoading] = useState(false)
+    const {control, handleSubmit, formState: {errors}} = useForm<ClientSchema>({
             // resolver: yupResolver(clientBasicInfoSchema),
             defaultValues:
                 {
@@ -39,10 +26,12 @@ export const ClientBasicInfo = ({current, setCurrent}: ClientBasicInfoProps) => 
         })
     ;
 
-    const onSubmit: SubmitHandler<IFormInput> = (data) => {
-        console.log(data);
+    const onSubmit: SubmitHandler<ClientSchema> = (data) => {
+        setIsLoading(true)
         setTimeout(() => {
-            setCurrent(current + 1)
+            setCurrent(current + 1);
+            setIsLoading(false)
+
         }, 2000)
         // Здесь вы можете отправить данные на сервер или выполнить другие действия
     };
@@ -70,7 +59,7 @@ export const ClientBasicInfo = ({current, setCurrent}: ClientBasicInfoProps) => 
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <Row gutter={16}>
+            <Row className="mb-16" gutter={[16, 16]} style={{maxWidth: 700}}>
                 <Col span={8}>
                     <div>
                         <Title level={5}>Фамилия</Title>
@@ -140,47 +129,55 @@ export const ClientBasicInfo = ({current, setCurrent}: ClientBasicInfoProps) => 
                     </div>
                 </Col>
                 <Col span={8}>
-                    <div>
-                        <Title level={5}>Телефон</Title>
-                        {fields.map((item, index) => (
-                            <Flex gap={8} key={item.id}>
-                                <Controller
-                                    name={`phones.${index}.number`}
-                                    control={control}
-                                    defaultValue={item.number || ''}
-                                    render={({field}) => (
-                                        <Input
-                                            {...field}
-                                            placeholder="Телефон"
-                                            value={field.value as string}
-                                            style={{width: '80%'}}
-                                        />
-                                    )}
-                                />
-                                <Button type="default" onClick={() => remove(index)}>
-                                    Удалить
-                                </Button>
-                            </Flex>
-                        ))}
-                        {errors?.phones && (
-                            <div className="invalid-tooltip" id="validate1">
-                                {errors.phones.message}
-                            </div>
-                        )}
+                    <Space direction={"vertical"}>
+
+                        <div>
+                            <Title level={5}>Телефон</Title>
+                            {fields.map((item, index) => (
+                                <Flex gap={8} key={item.id}>
+                                    <Controller
+                                        name={`phones.${index}.number`}
+                                        control={control}
+                                        defaultValue={item.number || ''}
+                                        render={({field}) => (
+                                            <Input
+                                                {...field}
+                                                placeholder="Телефон"
+                                                value={field.value as string}
+                                                style={{width: '80%'}}
+                                            />
+                                        )}
+                                    />
+                                    <Button danger={true} type="primary" onClick={() => remove(index)}>
+                                        <DeleteOutlined/>
+                                    </Button>
+                                </Flex>
+                            ))}
+                            {errors?.phones && (
+                                <div className="invalid-tooltip" id="validate1">
+                                    {errors.phones.message}
+                                </div>
+                            )}
+                        </div>
                         <Button
+                            icon={
+                                <PlusOutlined/>
+                            }
                             onClick={() => {
                                 append({
                                     number: '',
                                 });
                             }}
-                            type={"primary"}
+                            type={"link"}
+
+                            style={{paddingLeft: 0}}
                         >
                             Добавить
                         </Button>
-                    </div>
-                    <Button htmlType={"submit"} type={"primary"}>Далее</Button>
+                    </Space>
                 </Col>
             </Row>
+            <Button loading={isLoading} htmlType={"submit"} size={"large"} type={"primary"}>Далее</Button>
         </form>
     )
 }

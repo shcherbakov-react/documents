@@ -1,4 +1,5 @@
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+import {LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip} from 'recharts';
+import {Card} from "antd";
 
 export const LegalCharts = () => {
     const data = [
@@ -11,12 +12,14 @@ export const LegalCharts = () => {
         {name: 'Июль', value: 55},
     ];
     return (
-        <LineChart width={500} height={300} data={data}>
-            <Line type="monotone" dataKey="value" name="Заказы" stroke="#8884d8" />
-            <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-            <Tooltip />
-            <XAxis dataKey="name" />
-            <YAxis />
-        </LineChart>
+        <Card>
+            <LineChart width={500} height={300} data={data}>
+                <Line type="monotone" dataKey="value" name="Заказы" stroke="#8884d8"/>
+                <CartesianGrid stroke="#ccc" strokeDasharray="5 5"/>
+                <Tooltip/>
+                <XAxis dataKey="name"/>
+                <YAxis/>
+            </LineChart>
+        </Card>
     )
 }

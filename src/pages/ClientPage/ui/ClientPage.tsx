@@ -1,13 +1,12 @@
-import { useParams } from "react-router-dom";
-import { useGetClientQuery } from '../model/api/api';
-import { Col, Row, Tabs } from "antd";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { useEffect } from "react";
-import { ClientProfile } from "entities/Clients";
+import {useParams} from "react-router-dom";
+import {useGetClientQuery} from '../model/api/api';
+import {Col, Row, Tabs} from "antd";
+import {useForm, SubmitHandler} from "react-hook-form";
+import {useEffect} from "react";
+import {ClientProfile} from "entities/Clients";
 import cls from './ClientPage.module.scss'
-import Card from "antd/es/card";
-import { LegalPersons } from "entities/LegalEntity/ui/LegalPersons";
-import { LegalCharts } from "entities/LegalEntity/ui/Сharts";
+import {LegalPersons} from "entities/LegalEntity/ui/LegalPersons";
+import {LegalCharts} from "entities/LegalEntity/ui/Сharts";
 
 export const ClientPage = () => {
     const {id} = useParams()
@@ -44,33 +43,26 @@ export const ClientPage = () => {
 
     const items = [
         {
-            label: 'Юр. Лица',
+            label: 'Основная информация',
             key: '1',
-            children: <LegalPersons />,
+            children: <ClientProfile data={data}/>,
+        },
+        {
+            label: 'Юр. Лица',
+            key: '2',
+            children: <LegalPersons/>,
         },
         {
             label: 'Графики',
-            key: '2',
-            children: <LegalCharts />,
-        },
-        {
-            label: 'Tab 3',
             key: '3',
-            children: 'Tab 3',
-        }
+            children: <LegalCharts/>,
+        },
     ]
 
     return (
         <div className={cls.form}>
-            <Row justify="space-between">
-                <Col span={7}>
-                    <ClientProfile data={data} />
-                </Col>
-                <Col span={15}>
-                    <Card>
-                        <Tabs items={items} />
-                    </Card>
-                </Col>
+            <Row gutter={[16,16]}>
+                <Tabs style={{width: '100%'}} className={cls.card} items={items}/>
             </Row>
         </div>
     )

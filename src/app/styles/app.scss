@@ -9,3 +9,16 @@
     margin: 0 auto;
     width: 100%;
 }
+
+.mb-16 {
+    margin-bottom: 16px;
+}
+
+.plus {
+    width: 15px;
+}
+
+.swiper-pagination-fraction, .swiper-pagination-custom, .swiper-horizontal > .swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal {
+    position: relative;
+    margin-top: 10px;
+}

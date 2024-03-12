@@ -1,9 +1,9 @@
-import { LoadingOutlined, UserOutlined } from "@ant-design/icons";
+import {UserOutlined} from "@ant-design/icons";
 import Avatar from "antd/es/avatar";
 import Card from "antd/es/card";
 import Title from "antd/es/typography/Title";
 import cls from './Client.module.scss'
-import { Col, Flex, Row, Space } from "antd";
+import {Col, Flex, Space, Table} from "antd";
 
 export const ClientProfile = ({data}: any) => {
     const options = [
@@ -22,30 +22,39 @@ export const ClientProfile = ({data}: any) => {
     ]
 
     return (
-        <Card>
-            <div className={cls.card}>
-                <Avatar size={64} icon={<UserOutlined />} />
-                <Title level={2}>{data?.firstname + ' ' + data?.lastname}</Title>
-                <Space direction="vertical" size={"middle"}>
-                    <div className={cls.card}>
-                        <div>{data?.email}</div>
-                        {/*<div>{data?.type}</div>*/}
-                        <div>Юридическое лицо</div>
+        <Space style={{width: '100%'}} direction={"vertical"} size={16}>
+            <Col span={8}>
+                <Card className={`${cls.card}`}>
+                    <div>
+                        <Avatar size={64} icon={<UserOutlined/>}/>
+                        <Title level={2}>{data?.firstname + ' ' + data?.lastname}</Title>
+                        <Space direction="vertical" size={"middle"}>
+                            <div className={cls.card}>
+                                <div>{data?.email}</div>
+                                <div>Юридическое лицо</div>
+                            </div>
+                            <Flex gap="middle">
+                                <div className={cls.card}>
+                                    <div>Всего договоров:</div>
+                                    <Title level={3}>12</Title>
+                                </div>
+
+                                <div className={cls.card}>
+                                    <div>Сумма договоров:</div>
+                                    <Title level={3}>13 500 ₽</Title>
+                                </div>
+                            </Flex>
+                        </Space>
                     </div>
-                    <Flex gap="middle">
-                        <div className={cls.card}>
-                            <div>Всего договоров:</div>
-                            <Title level={3}>12</Title>
-                        </div>
+                </Card>
+            </Col>
+            <Col span={24}>
+                <Card title={"Заказы"}>
+                    <Table>
 
-                        <div className={cls.card}>
-                            <div>Сумма договоров:</div>
-                            <Title level={3}>13 500 ₽</Title>
-                        </div>
-                    </Flex>
-                </Space>
-
-            </div>
-        </Card>
+                    </Table>
+                </Card>
+            </Col>
+        </Space>
     )
 }
