@@ -24,7 +24,7 @@ export const LoginForm = () => {
         setIsErrorAuth(false);
     }
     const onSubmit: SubmitHandler<IFormInput> = (data) => {
-        $apiAxios.get('/auth', {
+        $apiAxios.get('/', {
             auth: {
                 username: data.username,
                 password: data.password
@@ -34,6 +34,7 @@ export const LoginForm = () => {
                 console.log(res)
             })
             .catch((err) => {
+                console.log(err)
                 setIsErrorAuth(true)
             })
     }
