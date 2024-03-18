@@ -24,10 +24,6 @@ export const CreateClientPage = ({isOpen}: any) => {
             title: 'Проекты',
             content: <ProjectsOfClient/>,
         },
-        {
-            title: 'Юр. Лица',
-            content: 'Last-content',
-        },
     ];
 
     const items = steps.map((item) => ({key: item.title, title: item.title}));

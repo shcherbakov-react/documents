@@ -1,0 +1,22 @@
+.wrapper {
+  margin-top: 32px;
+}
+
+.addButton {
+  margin-top: 16px;
+  display: block;
+  padding: 0;
+}
+
+.card {
+  & + .card {
+    margin-top: 32px;
+  }
+}
+
+.basic {
+  border: 1px solid #1677ff;
+  border-radius: 8px;
+  padding: 24px;
+  background: #f1f9ff;
+}

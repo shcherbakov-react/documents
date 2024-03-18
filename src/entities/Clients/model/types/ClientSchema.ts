@@ -1,21 +1,3 @@
-// export interface ClientSchema {
-//     comment: string
-//     countorders: number
-//     creationdatetime: number
-//     email: string
-//     firstname: string
-//     id: number
-//     lastname: string
-//     phones: [{
-//         id: number
-//         name: string
-//         number: string
-//     }]
-//     secondname: string
-//     sumprice: number
-//     type: number
-// }
-
 export type IPhoneNumbers = {
     number: string;
 }
@@ -29,4 +11,25 @@ export type ClientSchema = {
     type?: number;
     comment?: string;
     phones?: IPhoneNumbers[];
+}
+
+export type LegalsData = {
+    name: string,
+    fullName: string,
+    shortName: string
+    ogrn: string
+    inn: string
+    legalAdress: string
+    postAdress: string
+    status: string
+    banksDetails: BankDetails[]
+}
+
+export type BankDetails = {
+    bankName: string
+    checkingAccount: string
+    correspondentAccount: string
+    bankInn: string
+    bankAdress: string
+    bankDescription: string
 }
