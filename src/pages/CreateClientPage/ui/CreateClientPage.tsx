@@ -8,7 +8,7 @@ import Card from "antd/es/card";
 export const CreateClientPage = ({isOpen}: any) => {
     const {control, handleSubmit} = useForm({})
     const [modalVisible, setModalVisible] = useState(false);
-    const [current, setCurrent] = useState(1);
+    const [current, setCurrent] = useState(0);
     const next = () => {
         setCurrent(current + 1);
     };

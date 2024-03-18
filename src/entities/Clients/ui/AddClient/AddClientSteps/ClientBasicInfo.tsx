@@ -1,10 +1,25 @@
 import Title from "antd/es/typography/Title";
-import {Controller, SubmitHandler, useFieldArray, useForm} from "react-hook-form";
+import { Controller, SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import Input from "antd/es/input";
-import {Button, Col, Flex, Row, Select, Space} from "antd";
-import {useState} from "react";
-import {DeleteOutlined, PlusOutlined} from "@ant-design/icons";
-import {ClientSchema} from "../../../model/types/ClientSchema";
+import { Button, Col, Flex, Row, Select, Space } from "antd";
+import { useState } from "react";
+import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import { ClientSchema } from "../../../model/types/ClientSchema";
+
+const OPTIONS = [
+    {
+        value: 1,
+        label: 'Физ. лицо'
+    },
+    {
+        value: 2,
+        label: 'Юр. лицо'
+    },
+    {
+        value: 3,
+        label: 'Сотрудник'
+    },
+];
 
 interface ClientBasicInfoProps {
     current: number;
@@ -14,7 +29,6 @@ interface ClientBasicInfoProps {
 export const ClientBasicInfo = ({current, setCurrent}: ClientBasicInfoProps) => {
     const [isLoading, setIsLoading] = useState(false)
     const {control, handleSubmit, formState: {errors}} = useForm<ClientSchema>({
-            // resolver: yupResolver(clientBasicInfoSchema),
             defaultValues:
                 {
                     phones: [
@@ -31,7 +45,6 @@ export const ClientBasicInfo = ({current, setCurrent}: ClientBasicInfoProps) => 
         setTimeout(() => {
             setCurrent(current + 1);
             setIsLoading(false)
-
         }, 2000)
         // Здесь вы можете отправить данные на сервер или выполнить другие действия
     };
@@ -41,21 +54,6 @@ export const ClientBasicInfo = ({current, setCurrent}: ClientBasicInfoProps) => 
         control,
         name: 'phones'
     });
-
-    const options = [
-        {
-            value: 1,
-            label: 'Физ. лицо'
-        },
-        {
-            value: 2,
-            label: 'Юр. лицо'
-        },
-        {
-            value: 3,
-            label: 'Сотрудник'
-        },
-    ];
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -123,7 +121,7 @@ export const ClientBasicInfo = ({current, setCurrent}: ClientBasicInfoProps) => 
                             control={control}
                             render={({field}) => <Select placeholder={"Выбирите тип"} style={{
                                 width: 120,
-                            }} options={options} {...field} />}
+                            }} options={OPTIONS} {...field} />}
                         />
 
                     </div>
@@ -148,9 +146,11 @@ export const ClientBasicInfo = ({current, setCurrent}: ClientBasicInfoProps) => 
                                             />
                                         )}
                                     />
-                                    <Button danger={true} type="primary" onClick={() => remove(index)}>
-                                        <DeleteOutlined/>
-                                    </Button>
+                                    {index > 0 &&
+										<Button danger={true} type="primary" onClick={() => remove(index)}>
+											<DeleteOutlined />
+										</Button>
+                                    }
                                 </Flex>
                             ))}
                             {errors?.phones && (
@@ -161,7 +161,7 @@ export const ClientBasicInfo = ({current, setCurrent}: ClientBasicInfoProps) => 
                         </div>
                         <Button
                             icon={
-                                <PlusOutlined/>
+                                <PlusOutlined />
                             }
                             onClick={() => {
                                 append({
@@ -169,7 +169,6 @@ export const ClientBasicInfo = ({current, setCurrent}: ClientBasicInfoProps) => 
                                 });
                             }}
                             type={"link"}
-
                             style={{paddingLeft: 0}}
                         >
                             Добавить
