@@ -8,10 +8,10 @@ export const ClientsColumns: TableProps<ClientSchema>['columns'] = [
     {
         title: 'Фио',
         dataIndex: 'firstname',
-        key: 'firstname',
-        render: (_, record) => (
+        key: 'fullname',
+        render: (_, record:ClientSchema) => (
             <NavLink to={`/clients/${record.id}`}>
-                <span>{record.firstname}</span>
+                <span>{`${record.firstname} ${record.lastname}`}</span>
             </NavLink>
         )
     },

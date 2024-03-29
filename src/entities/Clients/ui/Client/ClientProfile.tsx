@@ -25,7 +25,7 @@ export const ClientProfile = ({data}: any) => {
         <Space style={{width: '100%'}} direction={"vertical"} size={16}>
             <Col span={8}>
                 <Card className={`${cls.card}`}>
-                    <div>
+                    <div className={cls.wrapper}>
                         <Avatar size={64} icon={<UserOutlined/>}/>
                         <Title level={2}>{data?.firstname + ' ' + data?.lastname}</Title>
                         <Space direction="vertical" size={"middle"}>

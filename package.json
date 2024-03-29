@@ -2,7 +2,7 @@
     "name": "production-project",
     "version": "1.0.0",
     "description": "",
-    "homepage": ".",
+    "homepage": "http://food.meerka.ru/",
     "main": "index.js",
     "scripts": {
         "start": "webpack serve --env port=3000",

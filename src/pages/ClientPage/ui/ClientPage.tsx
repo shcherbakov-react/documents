@@ -10,7 +10,6 @@ import {LegalCharts} from "entities/LegalEntity/ui/Сharts";
 
 export const ClientPage = () => {
     const {id} = useParams()
-    console.log(id)
     const {data, isLoading} = useGetClientQuery(id)
 
     interface IFormInput {
@@ -20,10 +19,7 @@ export const ClientPage = () => {
     }
 
     const {
-        handleSubmit,
-        control,
         reset,
-        register
     } = useForm({
         defaultValues: {
             firstname: data?.firstname,

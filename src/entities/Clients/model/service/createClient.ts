@@ -5,8 +5,12 @@ const clientData = api.injectEndpoints({
         getClient: build.query({
             query: (id) => `/clients/${id}`
         }),
-        createClient: build.query({
-            query: (id) => `/clients/${id}`
+        createClient: build.mutation({
+            query: (body) =>  ({
+                url: '/clients',
+                method: 'POST',
+                body
+            })
         }),
         updateClient: build.mutation({
             query: ({ id, ...patch }) => ({
@@ -21,5 +25,6 @@ const clientData = api.injectEndpoints({
 
 export const {
     useGetClientQuery,
+    useCreateClientMutation,
     useUpdateClientMutation,
 } = clientData;

@@ -1,18 +1,18 @@
 import Title from "antd/es/typography/Title";
 import {Controller, SubmitHandler, useFieldArray, useForm} from "react-hook-form";
-import Input from "antd/es/input";
-import {Button, Col, Flex, Row, Select, Space} from "antd";
+import {Button, Col, Flex, Row, Select, Space,Input} from "antd";
 import {useState} from "react";
 import {DeleteOutlined, PlusOutlined} from "@ant-design/icons";
 import {ClientSchema} from "../../../model/types/ClientSchema";
+import {useCreateClientMutation} from '../../../model/service/createClient'
+import {CLIENT_LOCALSTORAGE_KEY} from "shared/const/localstorage";
 
 interface ClientBasicInfoProps {
-    current: number;
     setCurrent: Function;
 }
 
-export const ClientBasicInfo = ({current, setCurrent}: ClientBasicInfoProps) => {
-    const [isLoading, setIsLoading] = useState(false)
+export const ClientBasicInfo = ({ setCurrent}: ClientBasicInfoProps) => {
+    const [createClient, {isLoading}] = useCreateClientMutation()
     const {control, handleSubmit, formState: {errors}} = useForm<ClientSchema>({
             // resolver: yupResolver(clientBasicInfoSchema),
             defaultValues:
@@ -26,14 +26,13 @@ export const ClientBasicInfo = ({current, setCurrent}: ClientBasicInfoProps) => 
         })
     ;
 
-    const onSubmit: SubmitHandler<ClientSchema> = (data) => {
-        setIsLoading(true)
-        setTimeout(() => {
-            setCurrent(current + 1);
-            setIsLoading(false)
 
-        }, 2000)
-        // Здесь вы можете отправить данные на сервер или выполнить другие действия
+    const onSubmit: SubmitHandler<ClientSchema> = (data) => {
+        createClient(data)
+            .then((res: {data: any}) => {
+                localStorage.setItem(CLIENT_LOCALSTORAGE_KEY, res.data.id);
+                setCurrent(1)
+            })
     };
 
 
@@ -87,7 +86,7 @@ export const ClientBasicInfo = ({current, setCurrent}: ClientBasicInfoProps) => 
                 </Col>
                 <Col span={8}>
                     <div>
-                        <Title level={5}>Отчетсво</Title>
+                        <Title level={5}>Отчество</Title>
                         <Controller
                             name="secondname"
                             control={control}
