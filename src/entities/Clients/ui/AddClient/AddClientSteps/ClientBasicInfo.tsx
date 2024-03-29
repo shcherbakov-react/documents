@@ -1,4 +1,5 @@
 import Title from "antd/es/typography/Title";
+<<<<<<< HEAD
 import {Controller, SubmitHandler, useFieldArray, useForm} from "react-hook-form";
 import {Button, Col, Flex, Row, Select, Space,Input} from "antd";
 import {useState} from "react";
@@ -6,6 +7,29 @@ import {DeleteOutlined, PlusOutlined} from "@ant-design/icons";
 import {ClientSchema} from "../../../model/types/ClientSchema";
 import {useCreateClientMutation} from '../../../model/service/createClient'
 import {CLIENT_LOCALSTORAGE_KEY} from "shared/const/localstorage";
+=======
+import { Controller, SubmitHandler, useFieldArray, useForm } from "react-hook-form";
+import Input from "antd/es/input";
+import { Button, Col, Flex, Row, Select, Space } from "antd";
+import { useState } from "react";
+import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import { ClientSchema } from "../../../model/types/ClientSchema";
+
+const OPTIONS = [
+    {
+        value: 1,
+        label: 'Физ. лицо'
+    },
+    {
+        value: 2,
+        label: 'Юр. лицо'
+    },
+    {
+        value: 3,
+        label: 'Сотрудник'
+    },
+];
+>>>>>>> 9b80a966d06ffc3bd99007006ac55141d567c81b
 
 interface ClientBasicInfoProps {
     setCurrent: Function;
@@ -14,7 +38,6 @@ interface ClientBasicInfoProps {
 export const ClientBasicInfo = ({ setCurrent}: ClientBasicInfoProps) => {
     const [createClient, {isLoading}] = useCreateClientMutation()
     const {control, handleSubmit, formState: {errors}} = useForm<ClientSchema>({
-            // resolver: yupResolver(clientBasicInfoSchema),
             defaultValues:
                 {
                     phones: [
@@ -26,6 +49,7 @@ export const ClientBasicInfo = ({ setCurrent}: ClientBasicInfoProps) => {
         })
     ;
 
+<<<<<<< HEAD
 
     const onSubmit: SubmitHandler<ClientSchema> = (data) => {
         createClient(data)
@@ -33,6 +57,15 @@ export const ClientBasicInfo = ({ setCurrent}: ClientBasicInfoProps) => {
                 localStorage.setItem(CLIENT_LOCALSTORAGE_KEY, res.data.id);
                 setCurrent(1)
             })
+=======
+    const onSubmit: SubmitHandler<ClientSchema> = (data) => {
+        setIsLoading(true)
+        setTimeout(() => {
+            setCurrent(current + 1);
+            setIsLoading(false)
+        }, 2000)
+        // Здесь вы можете отправить данные на сервер или выполнить другие действия
+>>>>>>> 9b80a966d06ffc3bd99007006ac55141d567c81b
     };
 
 
@@ -40,21 +73,6 @@ export const ClientBasicInfo = ({ setCurrent}: ClientBasicInfoProps) => {
         control,
         name: 'phones'
     });
-
-    const options = [
-        {
-            value: 1,
-            label: 'Физ. лицо'
-        },
-        {
-            value: 2,
-            label: 'Юр. лицо'
-        },
-        {
-            value: 3,
-            label: 'Сотрудник'
-        },
-    ];
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -122,7 +140,7 @@ export const ClientBasicInfo = ({ setCurrent}: ClientBasicInfoProps) => {
                             control={control}
                             render={({field}) => <Select placeholder={"Выбирите тип"} style={{
                                 width: 120,
-                            }} options={options} {...field} />}
+                            }} options={OPTIONS} {...field} />}
                         />
 
                     </div>
@@ -147,9 +165,11 @@ export const ClientBasicInfo = ({ setCurrent}: ClientBasicInfoProps) => {
                                             />
                                         )}
                                     />
-                                    <Button danger={true} type="primary" onClick={() => remove(index)}>
-                                        <DeleteOutlined/>
-                                    </Button>
+                                    {index > 0 &&
+										<Button danger={true} type="primary" onClick={() => remove(index)}>
+											<DeleteOutlined />
+										</Button>
+                                    }
                                 </Flex>
                             ))}
                             {errors?.phones && (
@@ -160,7 +180,7 @@ export const ClientBasicInfo = ({ setCurrent}: ClientBasicInfoProps) => {
                         </div>
                         <Button
                             icon={
-                                <PlusOutlined/>
+                                <PlusOutlined />
                             }
                             onClick={() => {
                                 append({
@@ -168,7 +188,6 @@ export const ClientBasicInfo = ({ setCurrent}: ClientBasicInfoProps) => {
                                 });
                             }}
                             type={"link"}
-
                             style={{paddingLeft: 0}}
                         >
                             Добавить
